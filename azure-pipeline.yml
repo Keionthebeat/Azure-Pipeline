@@ -3,9 +3,9 @@ trigger:
     include:
       - main # This tells the pipeline to run whenever there are changes to the main branch
 
-# Define the virtual machine image to use for the build agent
+# Define the self-hosted agent pool to use for the build agent
 pool:
-  vmImage: 'ubuntu-latest' # Using the latest Ubuntu image for the build environment
+  name: 'SelfHostedPool' # Replace with the name of your self-hosted agent pool
 
 # Define the steps to be executed in the pipeline
 steps:
@@ -19,6 +19,7 @@ steps:
   - script: |
       python -m pip install --upgrade pip # Upgrade pip to the latest version
       pip install -r requirements.txt # Install the project dependencies defined in requirements.txt
+      pip install opencensus-ext-azure # Install Application Insights SDK
       python -m unittest discover tests # Run the tests defined in the project
     displayName: 'Install dependencies and run tests' # A descriptive name for this step
 
@@ -30,7 +31,7 @@ steps:
   # Deploy to Azure Web App
   - task: AzureWebApp@1
     inputs:
-      azureSubscription: 'AzureSubConnect' # Replace with your service connection name
+      azureSubscription: 'AzureSubscriptionConnection' # Replace with your service connection name
       appName: '<Your Web App Name>' # Replace with the name of your Azure Web App
       package: $(System.DefaultWorkingDirectory) # The directory containing the application package
     displayName: 'Deploy to Azure Web App' # A descriptive name for this step
