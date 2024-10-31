@@ -1,4 +1,4 @@
-![IoT Device Management](/iot.png)
+![IoT Device Management](images/iot.png)
 
 # IoT Device Management System
 
