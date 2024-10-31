@@ -1,4 +1,3 @@
-# Trigger the pipeline on changes to the main branch
 trigger:
   branches:
     include:
@@ -31,7 +30,7 @@ steps:
   # Deploy to Azure Web App
   - task: AzureWebApp@1
     inputs:
-      azureSubscription: '<Your Azure Subscription>' # Replace with your Azure subscription name or ID
+      azureSubscription: 'AzureSubConnect' # Replace with your service connection name
       appName: '<Your Web App Name>' # Replace with the name of your Azure Web App
       package: $(System.DefaultWorkingDirectory) # The directory containing the application package
     displayName: 'Deploy to Azure Web App' # A descriptive name for this step
