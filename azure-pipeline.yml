@@ -1,0 +1,29 @@
+# Trigger the pipeline on changes to the main branch
+trigger:
+  branches:
+    include:
+      - main # This tells the pipeline to run whenever there are changes to the main branch
+
+# Define the virtual machine image to use for the build agent
+pool:
+  vmImage: 'ubuntu-latest' # Using the latest Ubuntu image for the build environment
+
+# Define the steps to be executed in the pipeline
+steps:
+  # Use the Python tool installer to ensure the correct version of Python is installed
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x' # Specify the version of Python to use (3.x)
+      addToPath: true # Add Python to the system PATH
+
+  # Install project dependencies and run tests
+  - script: |
+      python -m pip install --upgrade pip # Upgrade pip to the latest version
+      pip install -r requirements.txt # Install the project dependencies defined in requirements.txt
+      python -m unittest discover tests # Run the tests defined in the project
+    displayName: 'Install dependencies and run tests' # A descriptive name for this step
+
+  # Start the application
+  - script: |
+      python app/main.py # Start the application
+    displayName: 'Start the application' # A descriptive name for this step
