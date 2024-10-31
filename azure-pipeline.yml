@@ -27,3 +27,11 @@ steps:
   - script: |
       python app/main.py # Start the application
     displayName: 'Start the application' # A descriptive name for this step
+
+  # Deploy to Azure Web App
+  - task: AzureWebApp@1
+    inputs:
+      azureSubscription: '<Your Azure Subscription>' # Replace with your Azure subscription name or ID
+      appName: '<Your Web App Name>' # Replace with the name of your Azure Web App
+      package: $(System.DefaultWorkingDirectory) # The directory containing the application package
+    displayName: 'Deploy to Azure Web App' # A descriptive name for this step
